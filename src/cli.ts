@@ -1,18 +1,36 @@
+import * as path from 'path'
+
+import low from 'lowdb'
+import FileSync from 'lowdb/adapters/FileSync'
 import ora from 'ora'
 import sade from 'sade'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json')
 
-sade('lens')
-    .version(version)
-    .describe('Process and store image metadata')
-    .command('add <src>')
-    .action(async (src, dest, opts) => {
-        let spinner = ora().start()
+/**
+ * Basic CLI setup.
+ *
+ * @see https://github.com/lukeed/sade
+ * @see https://github.com/sindresorhus/ora
+ */
+const prog = sade('lens')
 
-        console.log({ src, dest, opts })
+prog.version(version)
+
+prog.command('add <src>')
+    .describe('Process and store image metadata')
+    .action(async (src, opts) => {
+        let spinner = ora().start()
+        let store = opts.store || 'src/imagemeta.json'
+        let adapter = new FileSync(path.resolve(store))
+        let db = low(adapter)
+
+        db.defaults({ library: [] })
+
+        console.log({ src, opts })
 
         spinner.stop()
     })
-    .parse(process.argv)
+
+prog.parse(process.argv)
