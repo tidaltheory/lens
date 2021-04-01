@@ -56,7 +56,7 @@
     "@typescript-eslint/parser": "4.15.x",
     "@zazen/eslint-config": "2.2.x",
     "eslint": "7.21.x",
-    "husky": "5.0.x",
+    "husky": "6.0.x",
     "import-sort-style-python": "1.0.x",
     "lint-staged": "10.5.x",
     "prettier": "2.2.x",
