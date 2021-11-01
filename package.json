@@ -52,7 +52,7 @@
     "@changesets/cli": "2.14.x",
     "@types/lowdb": "1.0.x",
     "@types/sade": "1.7.x",
-    "@typescript-eslint/eslint-plugin": "4.15.x",
+    "@typescript-eslint/eslint-plugin": "4.33.x",
     "@typescript-eslint/parser": "4.15.x",
     "@zazen/eslint-config": "2.2.x",
     "eslint": "7.21.x",
