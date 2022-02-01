@@ -50,7 +50,7 @@
     "@types/sade": "1.7.2",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.1",
-    "@zazen/eslint-config": "2.2.0",
+    "@zazen/eslint-config": "2.3.0",
     "eslint": "7.21.0",
     "husky": "5.0.9",
     "import-sort-style-python": "1.0.2",
