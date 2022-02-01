@@ -4,38 +4,33 @@ on: [push]
 
 jobs:
   build:
-    name: Lint, test, and build on Node ${{ matrix.node }}
+    name: Build, lint, and test on Node ${{ matrix.node }}
 
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['12.x', '14.x']
+        node: ['16.x']
 
     steps:
+      # https://github.com/actions/checkout
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Use Node ${{ matrix.node }}
+      # https://github.com/actions/setup-node
+      - name: Setup Node ${{ matrix.node }}
         uses: actions/setup-node@v2.1.5
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Use cached node_modules
-        uses: actions/cache@v2.1.4
-        with:
-          path: node_modules
-          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            nodeModules-
-
+      # https://github.com/bahmutov/npm-install
       - name: Install dependencies
-        run: npm ci
+        uses: bahmutov/npm-install@v1
+
+      - name: Build
+        run: npm run build
 
       - name: Lint
         run: npm run lint
 
       # - name: Test
       #   run: npm test --ci --coverage --maxWorkers=2
-
-      - name: Build
-        run: npm run build
