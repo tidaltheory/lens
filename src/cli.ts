@@ -1,4 +1,3 @@
-import { createRequire } from 'node:module'
 import path from 'node:path'
 import process from 'node:process'
 
@@ -7,8 +6,6 @@ import FileSync from 'lowdb/adapters/FileSync.js'
 import ora from 'ora'
 import sade from 'sade'
 import { PackageJson } from 'type-fest'
-
-const require = createRequire(import.meta.url)
 
 interface Options {
 	/** Path to JSON file in which to store the image data. */
@@ -22,6 +19,7 @@ interface Options {
  * @see https://github.com/sindresorhus/ora
  */
 const prog = sade('lens')
+// eslint-disable-next-line @typescript-eslint/no-var-requires, unicorn/prefer-module
 const { version } = require('../package.json') as PackageJson
 
 prog.version(version)
