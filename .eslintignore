@@ -1,0 +1,4 @@
+bin
+dist
+.eslintrc.js
+prettier.config.js
