@@ -13,9 +13,9 @@
   ],
   "scripts": {
     "_build": "tsdx build --entry src/cli.ts --target node --format cjs",
-    "build": "esbuild src/cli.ts --bundle --platform=node --target=node16 --outfile=dist/index.js",
+    "build": "npm run setup && esbuild src/cli.ts --bundle --platform=node --target=node16 --outfile=dist/index.js",
     "changeset": "changeset add",
-    "lint": "eslint .",
+    "lint": "npm run setup && eslint .",
     "prepare": "husky install",
     "release": "npm run build && changeset publish",
     "setup": "zazen configure"
