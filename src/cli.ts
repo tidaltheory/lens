@@ -1,12 +1,16 @@
-import * as path from 'path'
+import path from 'node:path'
+import process from 'node:process'
 
 import low from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
+import FileSync from 'lowdb/adapters/FileSync.js'
 import ora from 'ora'
 import sade from 'sade'
+import { PackageJson } from 'type-fest'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { version } = require('../package.json')
+interface Options {
+	/** Path to JSON file in which to store the image data. */
+	store?: string
+}
 
 /**
  * Basic CLI setup.
@@ -15,22 +19,24 @@ const { version } = require('../package.json')
  * @see https://github.com/sindresorhus/ora
  */
 const prog = sade('lens')
+// eslint-disable-next-line @typescript-eslint/no-var-requires, unicorn/prefer-module
+const { version } = require('../package.json') as PackageJson
 
 prog.version(version)
 
 prog.command('add <src>')
-    .describe('Process and store image metadata')
-    .action(async (src, opts) => {
-        let spinner = ora().start()
-        let store = opts.store || 'src/imagemeta.json'
-        let adapter = new FileSync(path.resolve(store))
-        let db = low(adapter)
+	.describe('Process and store image metadata')
+	.action(async (source: string, options: Options) => {
+		let spinner = ora().start()
+		let store = options.store || 'src/imagemeta.json'
+		let adapter = new FileSync(path.resolve(store))
+		let database = low(adapter)
 
-        db.defaults({ library: [] })
+		database.defaults({ library: [] })
 
-        console.log({ src, opts })
+		console.log({ source, options })
 
-        spinner.stop()
-    })
+		spinner.stop()
+	})
 
 prog.parse(process.argv)

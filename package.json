@@ -12,22 +12,17 @@
     "bin"
   ],
   "scripts": {
-    "build": "tsdx build --entry src/cli.ts --target node --format cjs",
+    "_build": "tsdx build --entry src/cli.ts --target node --format cjs",
+    "build": "npm run setup && esbuild src/cli.ts --bundle --platform=node --target=node16 --outfile=dist/index.js",
     "changeset": "changeset add",
-    "lint": "tsdx lint",
+    "lint": "npm run setup && eslint .",
     "prepare": "husky install",
     "release": "npm run build && changeset publish",
-    "start": "tsdx watch",
-    "test": "tsdx test"
+    "setup": "zazen configure"
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix",
     "package.json": "prettier --write"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all"
   },
   "dependencies": {
     "lowdb": "1.0.0",
@@ -38,22 +33,22 @@
     "@changesets/changelog-github": "0.2.8",
     "@changesets/cli": "2.14.1",
     "@types/lowdb": "1.0.11",
+    "@types/node": "17.0.15",
     "@types/sade": "1.7.2",
-    "@typescript-eslint/eslint-plugin": "4.15.2",
-    "@typescript-eslint/parser": "4.15.1",
-    "@zazen/eslint-config": "2.2.0",
-    "eslint": "7.21.0",
+    "@zazen/cli": "0.3.1",
+    "esbuild": "0.14.16",
+    "eslint": "8.8.0",
     "husky": "7.0.4",
     "import-sort-style-python": "1.0.2",
     "lint-staged": "10.5.4",
-    "prettier": "2.2.1",
+    "prettier": "2.5.1",
     "prettier-plugin-import-sort": "0.0.6",
     "prettier-plugin-packagejson": "2.2.10",
     "tsdx": "0.14.1",
     "tslib": "2.1.0",
-    "typescript": "4.2.2"
+    "type-fest": "2.11.1",
+    "typescript": "4.5.5"
   },
-  "peerDependencies": {},
   "engines": {
     "node": ">=16"
   },
