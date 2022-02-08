@@ -1,15 +1,20 @@
 import path from 'node:path'
 import process from 'node:process'
 
-import low from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync.js'
+import { JSONFile, Low } from 'lowdb'
 import ora from 'ora'
 import sade from 'sade'
 import { PackageJson } from 'type-fest'
 
+import { ImageRecord } from './types.js'
+
 interface Options {
 	/** Path to JSON file in which to store the image data. */
 	store?: string
+}
+
+interface Library {
+	library: ImageRecord[]
 }
 
 /**
@@ -29,10 +34,11 @@ prog.command('add <src>')
 	.action(async (source: string, options: Options) => {
 		let spinner = ora().start()
 		let store = options.store || 'src/imagemeta.json'
-		let adapter = new FileSync(path.resolve(store))
-		let database = low(adapter)
+		let adapter = new JSONFile<Library>(path.resolve(store))
+		let database = new Low(adapter)
 
-		database.defaults({ library: [] })
+		await database.read()
+		database.data ||= { library: [] }
 
 		console.log({ source, options })
 
