@@ -12,15 +12,15 @@ export interface ImageFile {
 	 * Alternative image formats, either for one-off use or in a
 	 * `<picture>` element.
 	 */
-	formats?: Map<ImageFormat, string>
+	formats?: Record<ImageFormat, string>
 }
 
 /** Data for each image stored in the library. */
 export interface ImageRecord extends ImageFile {
 	/** Array of dominant colours, in hex format. */
-	colors: string[]
+	colors?: string[]
 	/** Encoded blurha.sh placeholder. */
-	blurhash: string
+	blurhash?: string
 	/** Resized versions, keyed to thumbnail size label. */
-	thumbnails?: Map<string, ImageFile>
+	thumbnails?: Record<string, ImageFile>
 }
