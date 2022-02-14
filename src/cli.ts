@@ -5,8 +5,10 @@ import process from 'node:process'
 import { JSONFile, Low } from 'lowdb'
 import ora from 'ora'
 import sade from 'sade'
+import sharp from 'sharp'
 import { PackageJson } from 'type-fest'
 
+import { generateFingerprint } from './lib/fingerprint.js'
 import { ImageRecord } from './types.js'
 
 interface Options {
@@ -46,9 +48,12 @@ prog.command('add <src>')
 			process.exit(1)
 		}
 
-		let entryKey = parse(source).name
+		let sharpImage = sharp(source)
+		let fingerprint = await generateFingerprint(sharpImage)
+
+		let { dir, name: imageName, ext } = parse(source)
 		let entry: ImageRecord = {
-			path: source,
+			path: `${dir}${imageName}.${fingerprint}${ext}`,
 			dimensions: { width: 0, height: 0 },
 		}
 
@@ -58,7 +63,7 @@ prog.command('add <src>')
 
 		await database.read()
 		database.data ||= { library: {} }
-		database.data.library[entryKey] = entry
+		database.data.library[imageName] = entry
 
 		try {
 			await database.write()
