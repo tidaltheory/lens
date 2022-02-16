@@ -49,12 +49,25 @@ prog.command('add <src>')
 		}
 
 		let sharpImage = sharp(source)
+		let { width, height } = await sharpImage.metadata()
 		let fingerprint = await generateFingerprint(sharpImage)
 
 		let { dir, name: imageName, ext } = parse(source)
+		let filename = `${dir}${imageName}.${fingerprint}${ext}`
+
+		try {
+			spinner.text = 'Optimising original image...'
+			sourceImage = await open(source, 'r')
+			await sharpImage.withMetadata().toFile(filename)
+		} catch (error: unknown) {
+			spinner.fail(String(error))
+			// eslint-disable-next-line unicorn/no-process-exit
+			process.exit(1)
+		}
+
 		let entry: ImageRecord = {
 			path: `${dir}${imageName}.${fingerprint}${ext}`,
-			dimensions: { width: 0, height: 0 },
+			dimensions: { width, height },
 		}
 
 		let store = options.store || 'src/imagemeta.json'
