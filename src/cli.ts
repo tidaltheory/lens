@@ -5,8 +5,10 @@ import process from 'node:process'
 import { JSONFile, Low } from 'lowdb'
 import ora from 'ora'
 import sade from 'sade'
+import sharp from 'sharp'
 import { PackageJson } from 'type-fest'
 
+import { generateFingerprint } from './lib/fingerprint.js'
 import { ImageRecord } from './types.js'
 
 interface Options {
@@ -33,32 +35,59 @@ prog.version(version)
 prog.command('add <src>')
 	.describe('Process and store image metadata')
 	.action(async (source: string, options: Options) => {
+		function failAndExit(error: unknown) {
+			spinner.fail(String(error))
+			// eslint-disable-next-line unicorn/no-process-exit
+			process.exit(1)
+		}
+
 		let spinner = ora().start()
 
+		/**
+		 * Check that source image exists.
+		 */
 		let sourceImage: FileHandle
 		try {
 			spinner.text = 'Checking image...'
 			sourceImage = await open(source, 'r')
 			await sourceImage.close()
 		} catch (error: unknown) {
-			spinner.fail(String(error))
-			// eslint-disable-next-line unicorn/no-process-exit
-			process.exit(1)
+			failAndExit(error)
 		}
 
-		let entryKey = parse(source).name
+		let sharpImage = sharp(source)
+		let { width, height } = await sharpImage.metadata()
+		let fingerprint = await generateFingerprint(sharpImage)
+
+		let { dir, name: imageName, ext } = parse(source)
+		let filename = `${dir}${imageName}.${fingerprint}${ext}`
+
+		try {
+			spinner.text = 'Optimising original image...'
+			sourceImage = await open(source, 'r')
+			await sharpImage.withMetadata().toFile(filename)
+		} catch (error: unknown) {
+			failAndExit(error)
+		}
+
+		/**
+		 * New entry to add to library.
+		 */
 		let entry: ImageRecord = {
-			path: source,
-			dimensions: { width: 0, height: 0 },
+			path: `${dir}${imageName}.${fingerprint}${ext}`,
+			dimensions: { width, height },
 		}
 
 		let store = options.store || 'src/imagemeta.json'
 		let adapter = new JSONFile<Library>(path.resolve(store))
 		let database = new Low(adapter)
 
+		/**
+		 * Load image store, add new entry, and write to JSON file.
+		 */
 		await database.read()
 		database.data ||= { library: {} }
-		database.data.library[entryKey] = entry
+		database.data.library[imageName] = entry
 
 		try {
 			await database.write()

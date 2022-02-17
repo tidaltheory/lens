@@ -1,8 +1,17 @@
 {
   "name": "@tidaltheory/lens",
   "version": "0.1.0",
+  "description": "Optimise & thumbnail images, and store metadata",
+  "keywords": [
+    "sharp",
+    "image",
+    "optimization",
+    "metadata",
+    "lqip",
+    "cli"
+  ],
   "license": "ISC",
-  "author": "Jeff",
+  "author": "Jeff Nelson (https://tidaltheory.io)",
   "typings": "dist/index.d.ts",
   "bin": {
     "lens": "bin/index.js"
@@ -13,7 +22,7 @@
   ],
   "scripts": {
     "_build": "tsdx build --entry src/cli.ts --target node --format cjs",
-    "build": "npm run setup && esbuild src/cli.ts --bundle --platform=node --target=node16 --outfile=dist/index.js",
+    "build": "npm run setup && esbuild src/cli.ts --bundle --platform=node --target=node16 --external:sharp --outfile=dist/index.js",
     "changeset": "changeset add",
     "lint": "npm run setup && eslint .",
     "prepare": "husky install",
@@ -27,14 +36,16 @@
   "dependencies": {
     "lowdb": "3.0.0",
     "ora": "6.0.1",
-    "sade": "1.8.1"
+    "sade": "1.8.1",
+    "sharp": "0.30.1"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.4.2",
     "@changesets/cli": "2.20.0",
     "@types/eslint": "8.4.1",
     "@types/node": "17.0.15",
-    "@zazen/cli": "0.3.1",
+    "@types/sharp": "0.29.5",
+    "@zazen/cli": "0.3.2",
     "esbuild": "0.14.16",
     "eslint": "8.8.0",
     "husky": "7.0.4",
