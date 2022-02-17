@@ -35,17 +35,24 @@ prog.version(version)
 prog.command('add <src>')
 	.describe('Process and store image metadata')
 	.action(async (source: string, options: Options) => {
+		function failAndExit(error: unknown) {
+			spinner.fail(String(error))
+			// eslint-disable-next-line unicorn/no-process-exit
+			process.exit(1)
+		}
+
 		let spinner = ora().start()
 
+		/**
+		 * Check that source image exists.
+		 */
 		let sourceImage: FileHandle
 		try {
 			spinner.text = 'Checking image...'
 			sourceImage = await open(source, 'r')
 			await sourceImage.close()
 		} catch (error: unknown) {
-			spinner.fail(String(error))
-			// eslint-disable-next-line unicorn/no-process-exit
-			process.exit(1)
+			failAndExit(error)
 		}
 
 		let sharpImage = sharp(source)
@@ -60,11 +67,12 @@ prog.command('add <src>')
 			sourceImage = await open(source, 'r')
 			await sharpImage.withMetadata().toFile(filename)
 		} catch (error: unknown) {
-			spinner.fail(String(error))
-			// eslint-disable-next-line unicorn/no-process-exit
-			process.exit(1)
+			failAndExit(error)
 		}
 
+		/**
+		 * New entry to add to library.
+		 */
 		let entry: ImageRecord = {
 			path: `${dir}${imageName}.${fingerprint}${ext}`,
 			dimensions: { width, height },
@@ -74,6 +82,9 @@ prog.command('add <src>')
 		let adapter = new JSONFile<Library>(path.resolve(store))
 		let database = new Low(adapter)
 
+		/**
+		 * Load image store, add new entry, and write to JSON file.
+		 */
 		await database.read()
 		database.data ||= { library: {} }
 		database.data.library[imageName] = entry

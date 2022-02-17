@@ -2,7 +2,7 @@
   "name": "@tidaltheory/lens",
   "version": "0.1.0",
   "license": "ISC",
-  "author": "Jeff",
+  "author": "Jeff Nelson (https://tidaltheory.io)",
   "typings": "dist/index.d.ts",
   "bin": {
     "lens": "bin/index.js"
