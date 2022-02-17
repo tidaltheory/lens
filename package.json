@@ -1,6 +1,15 @@
 {
   "name": "@tidaltheory/lens",
   "version": "0.1.0",
+  "description": "Optimise & thumbnail images, and store metadata",
+  "keywords": [
+    "sharp",
+    "image",
+    "optimization",
+    "metadata",
+    "lqip",
+    "cli"
+  ],
   "license": "ISC",
   "author": "Jeff Nelson (https://tidaltheory.io)",
   "typings": "dist/index.d.ts",
