@@ -60,7 +60,7 @@ prog.command('add <src>')
 		let fingerprint = await generateFingerprint(sharpImage)
 
 		let { dir, name: imageName, ext } = parse(source)
-		let filename = `${dir}${imageName}.${fingerprint}${ext}`
+		let filename = `${dir}/${imageName}.${fingerprint}${ext}`
 
 		try {
 			spinner.text = 'Optimising original image...'
@@ -74,7 +74,7 @@ prog.command('add <src>')
 		 * New entry to add to library.
 		 */
 		let entry: ImageRecord = {
-			path: `${dir}${imageName}.${fingerprint}${ext}`,
+			path: `${dir}/${imageName}.${fingerprint}${ext}`,
 			dimensions: { width, height },
 		}
 
