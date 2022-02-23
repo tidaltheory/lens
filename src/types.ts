@@ -24,3 +24,9 @@ export interface ImageRecord extends ImageFile {
 	/** Resized versions, keyed to thumbnail size label. */
 	thumbnails?: Record<string, ImageFile>
 }
+
+export interface LensConfig {
+	/** Path to JSON database file. */
+	store?: string
+	thumbnails?: string[]
+}

@@ -8,6 +8,7 @@ import sade from 'sade'
 import sharp from 'sharp'
 import { PackageJson } from 'type-fest'
 
+import { loadConfig } from './lib/context.js'
 import { generateFingerprint } from './lib/fingerprint.js'
 import { ImageRecord } from './types.js'
 
@@ -42,6 +43,7 @@ prog.command('add <src>')
 		}
 
 		let spinner = ora().start()
+		let config = await loadConfig()
 
 		/**
 		 * Check that source image exists.
@@ -78,7 +80,7 @@ prog.command('add <src>')
 			dimensions: { width, height },
 		}
 
-		let store = options.store || 'src/imagemeta.json'
+		let store = options.store || config.store || 'imagemeta.json'
 		let adapter = new JSONFile<Library>(path.resolve(store))
 		let database = new Low(adapter)
 
