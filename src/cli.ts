@@ -10,7 +10,8 @@ import { PackageJson } from 'type-fest'
 
 import { loadConfig } from './lib/context.js'
 import { generateFingerprint } from './lib/fingerprint.js'
-import { ImageRecord } from './types.js'
+import { writeThumbnail } from './lib/thumbnail.js'
+import type { ImageRecord, ImageThumbnails } from './types.js'
 
 interface Options {
 	/** Path to JSON file in which to store the image data. */
@@ -68,8 +69,35 @@ prog.command('add <src>')
 			spinner.text = 'Optimising original image...'
 			sourceImage = await open(source, 'r')
 			await sharpImage.withMetadata().toFile(filename)
+			spinner.succeed('Copy of original image Optimised')
 		} catch (error: unknown) {
 			failAndExit(error)
+		}
+
+		let entryThumbnails: ImageThumbnails = {}
+		/**
+		 * Generate thumbnail images.
+		 */
+		// eslint-disable-next-line etc/prefer-less-than
+		if (config.thumbnails.length > 0) {
+			try {
+				spinner.text = 'Generating thumbnail images...'
+
+				for await (let thumb of config.thumbnails) {
+					let [key] = Object.keys(thumb)
+					let { path, dimensions, formats } = await writeThumbnail(
+						sharpImage,
+						thumb,
+						{ dir, imageName, fingerprint, ext }
+					)
+
+					entryThumbnails[key] = { path, dimensions, formats }
+				}
+
+				spinner.succeed('Thumbnail images generated')
+			} catch (error: unknown) {
+				failAndExit(error)
+			}
 		}
 
 		/**
@@ -78,6 +106,7 @@ prog.command('add <src>')
 		let entry: ImageRecord = {
 			path: `${dir}/${imageName}.${fingerprint}${ext}`,
 			dimensions: { width, height },
+			thumbnails: entryThumbnails,
 		}
 
 		let store = options.store || config.store || 'imagemeta.json'

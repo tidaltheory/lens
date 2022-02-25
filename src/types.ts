@@ -1,8 +1,13 @@
-type ImageFormat = 'jpg' | 'png' | 'webp' | 'avif'
-type ImageDimensions = {
+import { ResizeOptions } from 'sharp'
+import { RequireAtLeastOne } from 'type-fest'
+
+type WebpFormat = { webp: string }
+type AvifFormat = { avif: string }
+export type ImageDimensions = {
 	width: number
 	height: number
 }
+export type ImageFormat = WebpFormat | AvifFormat
 
 export interface ImageFile {
 	/** Path to the original image format.  */
@@ -12,8 +17,10 @@ export interface ImageFile {
 	 * Alternative image formats, either for one-off use or in a
 	 * `<picture>` element.
 	 */
-	formats?: Record<ImageFormat, string>
+	formats?: Record<string, string>
 }
+
+export type ImageThumbnails = Record<string, ImageFile>
 
 /** Data for each image stored in the library. */
 export interface ImageRecord extends ImageFile {
@@ -22,11 +29,14 @@ export interface ImageRecord extends ImageFile {
 	/** Encoded blurha.sh placeholder. */
 	blurhash?: string
 	/** Resized versions, keyed to thumbnail size label. */
-	thumbnails?: Record<string, ImageFile>
+	thumbnails?: ImageThumbnails
 }
+
+type ThumbResizeOptions = RequireAtLeastOne<ResizeOptions, 'width' | 'height'>
+export type ThumbnailOption = Record<string, ThumbResizeOptions>
 
 export interface LensConfig {
 	/** Path to JSON database file. */
 	store?: string
-	thumbnails?: string[]
+	thumbnails?: ThumbnailOption[]
 }
