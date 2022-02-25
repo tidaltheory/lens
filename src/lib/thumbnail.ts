@@ -1,7 +1,18 @@
+import multimatch from 'multimatch'
 import sharp from 'sharp'
 import type { Sharp } from 'sharp'
 
 import type { ImageDimensions, ImageFile, ThumbnailOption } from '../types'
+
+/**
+ * Determine if the source path matches a glob pattern. Returns true if `files`
+ * is undefined.
+ */
+export function matchThumbnail(source: string, files?: string | string[]) {
+	if (!files) return true
+	// eslint-disable-next-line etc/prefer-less-than
+	return multimatch([source], files).length > 0
+}
 
 interface PathParts {
 	dir: string
