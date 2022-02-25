@@ -33,7 +33,11 @@ export interface ImageRecord extends ImageFile {
 }
 
 type ThumbResizeOptions = RequireAtLeastOne<ResizeOptions, 'width' | 'height'>
-export type ThumbnailOption = Record<string, ThumbResizeOptions>
+type FilesOption = {
+	/** A glob pattern or array of filenames to match against the current image. */
+	files?: string | string[]
+}
+export type ThumbnailOption = Record<string, ThumbResizeOptions & FilesOption>
 
 export interface LensConfig {
 	/** Path to JSON database file. */

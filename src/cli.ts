@@ -10,7 +10,7 @@ import { PackageJson } from 'type-fest'
 
 import { loadConfig } from './lib/context.js'
 import { generateFingerprint } from './lib/fingerprint.js'
-import { writeThumbnail } from './lib/thumbnail.js'
+import { matchThumbnail, writeThumbnail } from './lib/thumbnail.js'
 import type { ImageRecord, ImageThumbnails } from './types.js'
 
 interface Options {
@@ -69,7 +69,7 @@ prog.command('add <src>')
 			spinner.text = 'Optimising original image...'
 			sourceImage = await open(source, 'r')
 			await sharpImage.withMetadata().toFile(filename)
-			spinner.succeed('Copy of original image Optimised')
+			spinner.succeed('Copy of original image optimised')
 		} catch (error: unknown) {
 			failAndExit(error)
 		}
@@ -81,24 +81,40 @@ prog.command('add <src>')
 		// eslint-disable-next-line etc/prefer-less-than
 		if (config.thumbnails.length > 0) {
 			try {
-				spinner.text = 'Generating thumbnail images...'
+				spinner.start('Generating thumbnail images...')
+
+				let thumbs = 0
 
 				for await (let thumb of config.thumbnails) {
 					let [key] = Object.keys(thumb)
-					let { path, dimensions, formats } = await writeThumbnail(
-						sharpImage,
-						thumb,
-						{ dir, imageName, fingerprint, ext }
-					)
+					let [{ files }] = Object.values(thumb)
 
-					entryThumbnails[key] = { path, dimensions, formats }
+					if (matchThumbnail(source, files)) {
+						let { path, dimensions, formats } =
+							await writeThumbnail(sharpImage, thumb, {
+								dir,
+								imageName,
+								fingerprint,
+								ext,
+							})
+
+						thumbs++
+						entryThumbnails[key] = { path, dimensions, formats }
+					}
 				}
 
-				spinner.succeed('Thumbnail images generated')
+				// eslint-disable-next-line yoda
+				if (0 < thumbs) {
+					spinner.succeed(`${thumbs} thumbnail images generated`)
+				} else {
+					spinner.info('No thumbnails to generate')
+				}
 			} catch (error: unknown) {
 				failAndExit(error)
 			}
 		}
+
+		spinner.start('Adding entry to library...')
 
 		/**
 		 * New entry to add to library.
