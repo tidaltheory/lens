@@ -11,6 +11,14 @@ export default {
 		],
 		rules: {
 			...config.rules,
+			'@typescript-eslint/naming-convention': [
+				'error',
+				{
+					selector: 'variable',
+					modifiers: ['const'],
+					format: ['camelCase', 'UPPER_CASE'],
+				},
+			],
 			'@typescript-eslint/no-require-imports': 'off',
 			'@typescript-eslint/no-unsafe-return': 'off',
 			'import/no-anonymous-default-export': [
