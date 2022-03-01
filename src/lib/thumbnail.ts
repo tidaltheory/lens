@@ -43,20 +43,18 @@ export async function writeThumbnail(
 	dimensions = await image
 		.resize({ position, ...resizeOptions })
 		.withMetadata()
-		.toFile(`${filename}${ext}`)
+		.toFile(`${filename}.jpg`)
 		.then(({ width, height }) => {
 			return { width, height }
 		})
 	formats.webp = await image
 		.resize({ position, ...resizeOptions })
 		.withMetadata()
-		.toFormat('webp')
 		.toFile(`${filename}.webp`)
 		.then(() => `${filename}.webp`)
 	formats.avif = await image
 		.resize({ position, ...resizeOptions })
 		.withMetadata()
-		.toFormat('avif')
 		.toFile(`${filename}.avif`)
 		.then(() => `${filename}.avif`)
 
