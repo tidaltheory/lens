@@ -144,4 +144,30 @@ prog.command('add <src>')
 		}
 	})
 
+prog.command('jpg <src>')
+	.describe('Convert an image to high-quality JPG')
+	.action(async (source: string) => {
+		let spinner = ora().start()
+		let { name, ext } = parse(source)
+
+		if (ext.endsWith('jpg')) {
+			spinner.succeed('Image is already in JPG format!')
+			// eslint-disable-next-line unicorn/no-process-exit
+			process.exit(0)
+		}
+
+		let sharpImage = sharp(source)
+		spinner.text = 'Converting to JPG...'
+
+		try {
+			await sharpImage
+				.withMetadata()
+				.toFormat('jpg', { quality: 100, chromaSubsampling: '4:4:4' })
+				.toFile(`${name}.jpg`)
+			spinner.succeed(`${name} converted to JPG format!`)
+		} catch (error: unknown) {
+			spinner.fail(String(error))
+		}
+	})
+
 prog.parse(process.argv)
