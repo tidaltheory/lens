@@ -1,4 +1,5 @@
-import { FileHandle, open } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
+import { FileHandle, mkdir, open } from 'node:fs/promises'
 import path, { parse } from 'node:path'
 import process from 'node:process'
 
@@ -75,6 +76,11 @@ prog.command('add <src>')
 		let filename = useFilenameDirectory
 			? `${dir}/${imageName}/${fingerprint}${ext}`
 			: `${dir}/${imageName}.${fingerprint}${ext}`
+
+		if (useFilenameDirectory && !existsSync(`${dir}/${imageName}`)) {
+			spinner.info('Output directory did not exist, created')
+			await mkdir(`${dir}/${imageName}`)
+		}
 
 		try {
 			spinner.text = 'Optimising original image...'
