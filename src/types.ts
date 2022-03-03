@@ -40,7 +40,9 @@ type FilesOption = {
 export type ThumbnailOption = Record<string, ThumbResizeOptions & FilesOption>
 
 export interface LensConfig {
-	/** Path to JSON database file. */
+	/** Path to JSON file in which to store the image data. */
 	store?: string
+	/** Use the filename as a subdirectory for generated files. */
+	useFilenameDirectory?: boolean
 	thumbnails?: ThumbnailOption[]
 }

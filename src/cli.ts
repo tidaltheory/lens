@@ -1,4 +1,5 @@
-import { FileHandle, open } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
+import { FileHandle, mkdir, open } from 'node:fs/promises'
 import path, { parse } from 'node:path'
 import process from 'node:process'
 
@@ -16,6 +17,8 @@ import type { ImageRecord, ImageThumbnails } from './types.js'
 interface Options {
 	/** Path to JSON file in which to store the image data. */
 	store?: string
+	/** Use the filename as a subdirectory for generated files. */
+	useFilenameDirectory?: boolean
 }
 
 interface Library {
@@ -36,6 +39,11 @@ prog.version(version)
 
 prog.command('add <src>')
 	.describe('Process and store image metadata')
+	.option('-s, --store', 'Path to JSON file in which to store the image data')
+	.option(
+		'-u, --useFilenameDirectory',
+		'Use the filename as a subdirectory for generated files'
+	)
 	.action(async (source: string, options: Options) => {
 		function failAndExit(error: unknown) {
 			spinner.fail(String(error))
@@ -45,6 +53,8 @@ prog.command('add <src>')
 
 		let spinner = ora().start()
 		let config = await loadConfig()
+		let useFilenameDirectory =
+			options.useFilenameDirectory || config.useFilenameDirectory
 
 		/**
 		 * Check that source image exists.
@@ -63,7 +73,14 @@ prog.command('add <src>')
 		let fingerprint = await generateFingerprint(sharpImage)
 
 		let { dir, name: imageName, ext } = parse(source)
-		let filename = `${dir}/${imageName}.${fingerprint}${ext}`
+		let filename = useFilenameDirectory
+			? `${dir}/${imageName}/${fingerprint}${ext}`
+			: `${dir}/${imageName}.${fingerprint}${ext}`
+
+		if (useFilenameDirectory && !existsSync(`${dir}/${imageName}`)) {
+			spinner.info('Output directory did not exist, created')
+			await mkdir(`${dir}/${imageName}`)
+		}
 
 		try {
 			spinner.text = 'Optimising original image...'
@@ -96,6 +113,7 @@ prog.command('add <src>')
 								imageName,
 								fingerprint,
 								ext,
+								useFilenameDirectory,
 							})
 
 						thumbs++
@@ -120,7 +138,7 @@ prog.command('add <src>')
 		 * New entry to add to library.
 		 */
 		let entry: ImageRecord = {
-			path: `${dir}/${imageName}.${fingerprint}${ext}`,
+			path: filename,
 			dimensions: { width, height },
 			thumbnails: entryThumbnails,
 		}

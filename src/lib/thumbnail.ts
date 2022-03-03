@@ -19,6 +19,7 @@ interface PathParts {
 	imageName: string
 	fingerprint: string
 	ext: string
+	useFilenameDirectory: boolean
 }
 
 /**
@@ -28,12 +29,14 @@ interface PathParts {
 export async function writeThumbnail(
 	image: Sharp,
 	thumb: ThumbnailOption,
-	{ dir, imageName, fingerprint, ext }: PathParts
+	{ dir, imageName, fingerprint, ext, useFilenameDirectory }: PathParts
 ) {
 	let [key] = Object.keys(thumb)
 	let [{ position = sharp.strategy.attention, ...resizeOptions }] =
 		Object.values(thumb)
-	let filename = `${dir}/${imageName}-${key}.${fingerprint}`
+	let filename = useFilenameDirectory
+		? `${dir}/${imageName}/${key}.${fingerprint}`
+		: `${dir}/${imageName}-${key}.${fingerprint}`
 	let dimensions: ImageDimensions
 	let formats: ImageFile['formats'] = {}
 
