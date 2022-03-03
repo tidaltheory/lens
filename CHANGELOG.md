@@ -1,5 +1,24 @@
 # @tidaltheory/lens
 
+## 0.3.0 — 2022-03-03
+
+#### 🐛 Fixed
+
+- Fix JPG thumbnail file output [#83](https://github.com/tidaltheory/lens/pull/83)
+
+  JPG thumbnail images were sometimes ending up somewhat corrupted or
+  otherwise not displaying properly in macOS finder or Safari (although
+  seemed to work fine in Firefox). Thumbnail images are now explicitly
+  output as JPG, regardless of original image format.
+
+#### 🎁 Added
+
+- `jpg` command to convert an image to a high-quality JPG file [#87](https://github.com/tidaltheory/lens/pull/87)
+- Add `useFilenameDirectory` option [#90](https://github.com/tidaltheory/lens/pull/90)
+
+  Uses the filename (without extension) as a subdirectory next to the
+  source image to contain optimised formats and thumbnails.
+
 ## 0.2.0 — 2022-02-25
 
 #### 🎁 Added
