@@ -5,12 +5,13 @@ import process from 'node:process'
 
 import { globby } from 'globby'
 import { JSONFile, Low } from 'lowdb'
-import ora from 'ora'
+import ora, { oraPromise } from 'ora'
 import sade from 'sade'
 import sharp from 'sharp'
 import { PackageJson } from 'type-fest'
 
 import { loadConfig } from './lib/context.js'
+import { getDominantPalette } from './lib/dominant.js'
 import { generateFingerprint } from './lib/fingerprint.js'
 import { matchThumbnail, writeThumbnail } from './lib/thumbnail.js'
 import type { ImageRecord, ImageThumbnails } from './types.js'
@@ -73,6 +74,10 @@ prog.command('add <src>')
 			let sharpImage = sharp(source)
 			let { width, height } = await sharpImage.metadata()
 			let fingerprint = await generateFingerprint(sharpImage)
+			let dominantPalette = await oraPromise(
+				getDominantPalette(sharpImage),
+				{ successText: 'Extracted dominant colours' }
+			)
 
 			let { dir, name: imageName, ext } = parse(source)
 			let filename = useFilenameDirectory
@@ -148,6 +153,7 @@ prog.command('add <src>')
 			let entry: ImageRecord = {
 				path: filename,
 				dimensions: { width, height },
+				colors: dominantPalette,
 				thumbnails: entryThumbnails,
 			}
 
@@ -171,7 +177,11 @@ prog.command('add <src>')
 			}
 		}
 
-		spinner.succeed(`Processed ${processed} images ...DONE!`)
+		spinner.succeed(
+			`Processed ${processed} ${
+				processed === 1 ? 'image' : 'images'
+			} ...DONE!`
+		)
 	})
 
 prog.command('jpg <src>')
