@@ -1,5 +1,13 @@
 # @tidaltheory/lens
 
+## 0.4.0 — 2022-03-05
+
+#### 🎁 Added
+
+- Allow glob paths for input source [#92](https://github.com/tidaltheory/lens/pull/92)
+- Extract dominant colour from image [#95](https://github.com/tidaltheory/lens/pull/95)
+- Generate AVIF and WebP formats of original image [#96](https://github.com/tidaltheory/lens/pull/96)
+
 ## 0.3.0 — 2022-03-03
 
 #### 🐛 Fixed
