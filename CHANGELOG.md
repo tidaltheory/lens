@@ -1,5 +1,15 @@
 # @tidaltheory/lens
 
+## 0.4.0
+
+### Minor Changes
+
+- [#96](https://github.com/tidaltheory/lens/pull/96) [`43814f9`](https://github.com/tidaltheory/lens/commit/43814f9d1617799e2ab6a3e59bdfdc5ae3d178ee) Thanks [@stormwarning](https://github.com/stormwarning)! - Generate AVIF and WebP formats of original image
+
+* [#95](https://github.com/tidaltheory/lens/pull/95) [`4345c16`](https://github.com/tidaltheory/lens/commit/4345c168536befcb48b9a20e13d40acc506ccaec) Thanks [@stormwarning](https://github.com/stormwarning)! - Extract dominant colour from image
+
+- [#92](https://github.com/tidaltheory/lens/pull/92) [`ed8c9e9`](https://github.com/tidaltheory/lens/commit/ed8c9e97c95dbc54dfcede724b1ea52e26ebdea2) Thanks [@stormwarning](https://github.com/stormwarning)! - Allow glob paths for input source
+
 ## 0.3.0 — 2022-03-03
 
 #### 🐛 Fixed
