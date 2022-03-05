@@ -46,3 +46,11 @@ export interface LensConfig {
 	useFilenameDirectory?: boolean
 	thumbnails?: ThumbnailOption[]
 }
+
+export interface PathParts {
+	dir: string
+	imageName: string
+	fingerprint: string
+	ext: string
+	useFilenameDirectory: boolean
+}

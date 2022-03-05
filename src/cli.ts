@@ -13,6 +13,7 @@ import { PackageJson } from 'type-fest'
 import { loadConfig } from './lib/context.js'
 import { getDominantPalette } from './lib/dominant.js'
 import { generateFingerprint } from './lib/fingerprint.js'
+import { optimiseImage } from './lib/optimise.js'
 import { matchThumbnail, writeThumbnail } from './lib/thumbnail.js'
 import type { ImageRecord, ImageThumbnails } from './types.js'
 
@@ -56,12 +57,12 @@ prog.command('add <src>')
 		let processed = 0
 
 		for await (let source of sourceImages) {
-			let sourceImage: FileHandle
 			/**
 			 * Check that source image exists.
 			 */
+			spinner.text = 'Checking image...'
+			let sourceImage: FileHandle
 			try {
-				spinner.text = 'Checking image...'
 				sourceImage = await open(source, 'r')
 				await sourceImage.close()
 			} catch (error: unknown) {
@@ -89,10 +90,19 @@ prog.command('add <src>')
 				await mkdir(`${dir}/${imageName}`)
 			}
 
+			spinner.text = 'Optimising original image...'
+			let formats = {}
 			try {
-				spinner.text = 'Optimising original image...'
-				await sharpImage.withMetadata().toFile(filename)
-				spinner.succeed('Optimised a copy of original image')
+				formats = await oraPromise(
+					optimiseImage(sharpImage, {
+						dir,
+						imageName,
+						fingerprint,
+						ext,
+						useFilenameDirectory,
+					}),
+					{ successText: 'Optimised a copy of original image' }
+				)
 			} catch (error: unknown) {
 				spinner.fail(String(error))
 				continue
@@ -153,6 +163,7 @@ prog.command('add <src>')
 			let entry: ImageRecord = {
 				path: filename,
 				dimensions: { width, height },
+				formats,
 				colors: dominantPalette,
 				thumbnails: entryThumbnails,
 			}
