@@ -1,5 +1,13 @@
 # @tidaltheory/lens
 
+## 0.5.0
+
+### Minor Changes
+
+- [#112](https://github.com/tidaltheory/lens/pull/112) [`4b2c166`](https://github.com/tidaltheory/lens/commit/4b2c166157ef5ea77466586a90d51a64d3252dbc) Thanks [@stormwarning](https://github.com/stormwarning)! - Export image object types
+
+  Should make it easier to work with the metadata objects in a typed environment.
+
 ## 0.4.0 — 2022-03-05
 
 #### 🎁 Added
