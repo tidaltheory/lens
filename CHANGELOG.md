@@ -1,5 +1,11 @@
 # @tidaltheory/lens
 
+## 0.5.1
+
+### Patch Changes
+
+- [`02f93e4`](https://github.com/tidaltheory/lens/commit/02f93e486a46f359d23f0188663312322ff1ae5e) Thanks [@stormwarning](https://github.com/stormwarning)! - Make types export more reliable
+
 ## 0.5.0 — 2022-08-08
 
 #### 🎁 Added

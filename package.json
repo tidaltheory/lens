@@ -1,6 +1,6 @@
 {
   "name": "@tidaltheory/lens",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Optimise & thumbnail images, and store metadata",
   "keywords": [
     "sharp",
