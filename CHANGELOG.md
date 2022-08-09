@@ -1,5 +1,11 @@
 # @tidaltheory/lens
 
+### 0.5.2 — 2022-08-09
+
+#### 🐛 Fixed
+
+- Include types in npm bundle [`b0eb237`](https://github.com/tidaltheory/lens/commit/b0eb237c35b539a12d2791d1d7544222ce39a9f2)
+
 ### 0.5.1 — 2022-08-08
 
 #### 🐛 Fixed
