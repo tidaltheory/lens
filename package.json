@@ -15,18 +15,18 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./src/index.d.ts"
+        "types": "./types/index.d.ts"
       }
     }
   },
-  "types": "src/index.d.ts",
+  "types": "types/index.d.ts",
   "bin": {
     "lens": "bin/index.js"
   },
   "files": [
     "bin",
     "dist",
-    "src/index.d.ts"
+    "types"
   ],
   "scripts": {
     "_build": "tsdx build --entry src/cli.ts --target node --format cjs",

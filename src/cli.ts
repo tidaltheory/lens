@@ -10,12 +10,12 @@ import sade from 'sade'
 import sharp from 'sharp'
 import { PackageJson } from 'type-fest'
 
+import { ImageRecord, ImageThumbnails } from '../types/types.js'
 import { loadConfig } from './lib/context.js'
 import { getDominantPalette } from './lib/dominant.js'
 import { generateFingerprint } from './lib/fingerprint.js'
 import { optimiseImage } from './lib/optimise.js'
 import { matchThumbnail, writeThumbnail } from './lib/thumbnail.js'
-import type { ImageRecord, ImageThumbnails } from './types.js'
 
 interface Options {
 	/** Path to JSON file in which to store the image data. */

@@ -6,7 +6,7 @@ import url from 'node:url'
 import { isPlainObject } from 'is-plain-object'
 import { packageConfig, packageJsonPath } from 'pkg-conf'
 
-import type { LensConfig } from '../types'
+import type { LensConfig } from '../../types'
 
 const NO_SUCH_FILE = 'no lens.config.js file'
 const MISSING_DEFAULT_EXPORT = 'missing default export'

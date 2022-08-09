@@ -1,6 +1,6 @@
 import type { Sharp } from 'sharp'
 
-import type { ImageFile, PathParts } from '../types'
+import type { ImageFile, PathParts } from '../../types'
 
 export async function optimiseImage(
 	image: Sharp,

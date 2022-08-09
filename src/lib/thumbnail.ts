@@ -7,7 +7,7 @@ import type {
 	ImageFile,
 	PathParts,
 	ThumbnailOption,
-} from '../types'
+} from '../../types'
 
 /**
  * Determine if the source path matches a glob pattern. Returns true if `files`
