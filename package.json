@@ -43,7 +43,7 @@
     "package.json": "prettier --write"
   },
   "dependencies": {
-    "globby": "13.1.1",
+    "globby": "13.1.2",
     "is-plain-object": "5.0.0",
     "lowdb": "3.0.0",
     "multimatch": "6.0.0",
