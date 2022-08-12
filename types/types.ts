@@ -22,10 +22,24 @@ export interface ImageFile {
 
 export type ImageThumbnails = Record<string, ImageFile>
 
+interface ImageColors {
+	/**
+	 * Array of hex values, ordered from node-vibrant:
+	 *   1. "Vibrant"
+	 *   2. "DarkVibrant"
+	 *   3. "LightVibrant"
+	 *   4. "Muted"
+	 *   5. "DarkMuted"
+	 *   6. "LightMuted"
+	 */
+	palette: string[]
+	/** The colour from the `palette` array with the highest `population`. */
+	dominant: string
+}
+
 /** Data for each image stored in the library. */
 export interface ImageRecord extends ImageFile {
-	/** Array of dominant colours, in hex format. */
-	colors?: string[]
+	colors: ImageColors
 	/** Encoded blurha.sh placeholder. */
 	blurhash?: string
 	/** Resized versions, keyed to thumbnail size label. */
