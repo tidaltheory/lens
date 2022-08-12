@@ -1,5 +1,22 @@
 # @tidaltheory/lens
 
+## 1.0.0
+
+### Major Changes
+
+- [#119](https://github.com/tidaltheory/lens/pull/119) [`a1e03a1`](https://github.com/tidaltheory/lens/commit/a1e03a182c0f2416d7cce317a98ef70fdc39cae6) Thanks [@stormwarning](https://github.com/stormwarning)! - Change dominant colour strategy
+
+  Switched to using `node-vibrant` for finding dominant colours, rather than `sharp`’s built-in helper.
+
+  The `colors` key of each image object is now an object with the following keys:
+
+  - `palette` is an array of six hex colours (`node-vibrant`’s default output)
+  - `dominant` is the colour from that array with the highest `population`
+
+### Patch Changes
+
+- [#99](https://github.com/tidaltheory/lens/pull/99) [`1cdc602`](https://github.com/tidaltheory/lens/commit/1cdc60218e81ee640996a48db7ff1d0f9e52abba) Thanks [@renovate](https://github.com/apps/renovate)! - Chore: Update sharp to v0.30.7
+
 ### 0.5.2 — 2022-08-09
 
 #### 🐛 Fixed
