@@ -37,6 +37,13 @@ interface ImageColors {
 	dominant: string
 }
 
+export interface ImageMeta {
+	/** Title field from the image’s EXIF data. */
+	title?: string
+	/** Description field from the image’s EXIF data. */
+	caption?: string
+}
+
 /** Data for each image stored in the library. */
 export interface ImageRecord extends ImageFile {
 	colors: ImageColors
@@ -44,6 +51,7 @@ export interface ImageRecord extends ImageFile {
 	blurhash?: string
 	/** Resized versions, keyed to thumbnail size label. */
 	thumbnails?: ImageThumbnails
+	meta?: ImageMeta
 }
 
 type ThumbResizeOptions = RequireAtLeastOne<ResizeOptions, 'width' | 'height'>
@@ -59,6 +67,7 @@ export interface LensConfig {
 	/** Use the filename as a subdirectory for generated files. */
 	useFilenameDirectory?: boolean
 	thumbnails?: ThumbnailOption[]
+	includeMetadata?: boolean
 }
 
 export interface PathParts {

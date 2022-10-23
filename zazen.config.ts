@@ -26,6 +26,7 @@ export default {
 				'error',
 				{ allowObject: true },
 			],
+			'n/file-extension-in-import': 'off',
 		},
 	}),
 }
