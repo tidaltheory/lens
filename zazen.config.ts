@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { Linter } from 'eslint'
+import type { Linter } from 'eslint'
 
 export default {
 	setEslintConfig: (config: Linter.Config) => ({
@@ -11,6 +10,8 @@ export default {
 		],
 		rules: {
 			...config.rules,
+			'@typescript-eslint/consistent-type-definitions': 'off',
+			'@typescript-eslint/consistent-type-imports': 'off',
 			'@typescript-eslint/naming-convention': [
 				'error',
 				{

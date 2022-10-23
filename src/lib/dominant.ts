@@ -1,5 +1,5 @@
 import Vibrant from 'node-vibrant'
-import type { Sharp } from 'sharp'
+import { Sharp } from 'sharp'
 
 export async function getDominantPalette(image: Sharp) {
 	let buffer = await image.toBuffer()

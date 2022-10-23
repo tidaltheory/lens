@@ -1,6 +1,5 @@
 import multimatch from 'multimatch'
-import sharp from 'sharp'
-import type { Sharp } from 'sharp'
+import sharp, { Sharp } from 'sharp'
 
 import type {
 	ImageDimensions,
@@ -44,9 +43,7 @@ export async function writeThumbnail(
 		.resize({ position, ...resizeOptions })
 		.withMetadata()
 		.toFile(`${filename}.jpg`)
-		.then(({ width, height }) => {
-			return { width, height }
-		})
+		.then(({ width, height }) => ({ width, height }))
 	formats.webp = await image
 		.resize({ position, ...resizeOptions })
 		.withMetadata()

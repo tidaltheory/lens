@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 
-import type { Sharp } from 'sharp'
+import { Sharp } from 'sharp'
 
 /**
  * Generates a short hash string from image data for fingerprinting

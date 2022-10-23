@@ -1,4 +1,4 @@
-import type { Sharp } from 'sharp'
+import { Sharp } from 'sharp'
 
 import type { ImageFile, PathParts } from '../../types'
 
