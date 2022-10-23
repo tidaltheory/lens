@@ -12,7 +12,12 @@ import sharp from 'sharp'
 import { IptcParser } from 'ts-node-iptc'
 import { PackageJson } from 'type-fest'
 
-import { ImageMeta, ImageRecord, ImageThumbnails } from '../types/types.js'
+import {
+        ImageMeta,
+        ImageRecord,
+        ImageThumbnails,
+        LensConfig,
+} from '../types/types.js'
 
 import { loadConfig } from './lib/context.js'
 import { getDominantPalette } from './lib/dominant.js'
@@ -52,7 +57,7 @@ prog.command('add <src>')
 	)
 	.action(async (source: string, options: Options) => {
 		let spinner = ora().start()
-		let config = await loadConfig()
+                let config: LensConfig = await loadConfig()
 		let useFilenameDirectory =
 			options.useFilenameDirectory || config.useFilenameDirectory
 
@@ -159,7 +164,7 @@ prog.command('add <src>')
 				}
 			}
 
-			let entryMeta: ImageMeta
+                        let entryMeta: ImageMeta = {}
 			if (config.includeMetadata) {
 				entryMeta.title = iptcData.object_name
 				entryMeta.caption = iptcData.caption
