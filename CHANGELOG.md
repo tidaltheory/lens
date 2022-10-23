@@ -1,5 +1,11 @@
 # @tidaltheory/lens
 
+## 1.1.1 — 2022-10-23
+
+### 🐛 Fixed
+
+- Fix recording of metadata [`ba237fb`](https://github.com/tidaltheory/lens/commit/ba237fb218779e5fcff312a723933a8cc975994d)
+
 ## 1.1.0 — 2022-10-23
 
 ### 🎁 Added
