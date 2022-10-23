@@ -1,5 +1,11 @@
 # @tidaltheory/lens
 
+## 1.1.1
+
+### Patch Changes
+
+- [`ba237fb`](https://github.com/tidaltheory/lens/commit/ba237fb218779e5fcff312a723933a8cc975994d) Thanks [@stormwarning](https://github.com/stormwarning)! - Fix recording of metadata
+
 ## 1.1.0 — 2022-10-23
 
 ### 🎁 Added
