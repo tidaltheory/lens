@@ -4,13 +4,15 @@ import path, { parse } from 'node:path'
 import process from 'node:process'
 
 import { globby } from 'globby'
-import { JSONFile, Low } from 'lowdb'
+import { Low } from 'lowdb'
+import { JSONFile } from 'lowdb/node'
 import ora, { oraPromise } from 'ora'
 import sade from 'sade'
 import sharp from 'sharp'
+import { IptcParser } from 'ts-node-iptc'
 import { PackageJson } from 'type-fest'
 
-import { ImageRecord, ImageThumbnails } from '../types/types.js'
+import { ImageMeta, ImageRecord, ImageThumbnails } from '../types/types.js'
 
 import { loadConfig } from './lib/context.js'
 import { getDominantPalette } from './lib/dominant.js'
@@ -74,7 +76,8 @@ prog.command('add <src>')
 			processed++
 
 			let sharpImage = sharp(source)
-			let { width, height } = await sharpImage.metadata()
+			let { width, height, iptc } = await sharpImage.metadata()
+			let iptcData = IptcParser.readIPTCData(iptc)
 			let fingerprint = await generateFingerprint(sharpImage)
 			let dominantPalette = await oraPromise(
 				getDominantPalette(sharpImage),
@@ -156,6 +159,12 @@ prog.command('add <src>')
 				}
 			}
 
+			let entryMeta: ImageMeta
+			if (config.includeMetadata) {
+				entryMeta.title = iptcData.object_name
+				entryMeta.caption = iptcData.caption
+			}
+
 			spinner.start('Adding entry to library...')
 
 			/**
@@ -167,6 +176,7 @@ prog.command('add <src>')
 				formats,
 				colors: dominantPalette,
 				thumbnails: entryThumbnails,
+				meta: entryMeta,
 			}
 
 			let store = options.store || config.store || 'imagemeta.json'
