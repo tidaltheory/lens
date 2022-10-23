@@ -1,10 +1,10 @@
 # @tidaltheory/lens
 
-## 1.1.0
+## 1.1.0 — 2022-10-23
 
-### Minor Changes
+### 🎁 Added
 
-- [#136](https://github.com/tidaltheory/lens/pull/136) [`a17e84b`](https://github.com/tidaltheory/lens/commit/a17e84b60758fa7f52402de651f7d93905cded7a) Thanks [@stormwarning](https://github.com/stormwarning)! - Add option to store IPTC metadata
+- Add option to store IPTC metadata [#136](https://github.com/tidaltheory/lens/pull/136)
 
   Only stores `object_name` (as `title`) and `caption` currently.
 
