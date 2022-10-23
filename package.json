@@ -49,7 +49,7 @@
     "exif-reader": "1.0.3",
     "globby": "13.1.2",
     "is-plain-object": "5.0.0",
-    "lowdb": "5.0.3",
+    "lowdb": "5.0.5",
     "multimatch": "6.0.0",
     "node-vibrant": "3.2.1-alpha.1",
     "ora": "6.1.2",
