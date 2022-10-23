@@ -67,7 +67,7 @@
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "prettier-plugin-import-sort": "0.0.7",
-    "prettier-plugin-packagejson": "2.2.18",
+    "prettier-plugin-packagejson": "2.3.0",
     "tsdx": "0.14.1",
     "tslib": "2.4.0",
     "type-fest": "2.19.0",
