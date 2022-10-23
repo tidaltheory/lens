@@ -5,7 +5,7 @@ import process from 'node:process'
 
 import { globby } from 'globby'
 import { Low } from 'lowdb'
-import { JSONFile } from 'lowdb/lib/node'
+import { JSONFile } from 'lowdb/node'
 import ora, { oraPromise } from 'ora'
 import sade from 'sade'
 import sharp from 'sharp'
