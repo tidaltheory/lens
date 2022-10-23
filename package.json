@@ -63,7 +63,7 @@
     "@changesets/cli": "2.25.0",
     "@types/eslint": "8.4.7",
     "@types/node": "17.0.15",
-    "@types/sharp": "0.30.5",
+    "@types/sharp": "0.31.0",
     "@zazen/cli": "0.5.0",
     "esbuild": "0.15.12",
     "husky": "8.0.1",
