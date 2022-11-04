@@ -55,7 +55,7 @@
     "ora": "6.1.2",
     "pkg-conf": "4.0.0",
     "sade": "1.8.1",
-    "sharp": "0.31.1",
+    "sharp": "0.31.2",
     "ts-node-iptc": "1.0.11"
   },
   "devDependencies": {
