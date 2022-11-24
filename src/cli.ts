@@ -5,7 +5,7 @@ import process from 'node:process'
 
 import { globby } from 'globby'
 import { Low } from 'lowdb'
-import { JSONFile } from 'lowdb/node'
+import { JSONFile } from 'lowdb/lib/node'
 import ora, { oraPromise } from 'ora'
 import sade from 'sade'
 import sharp from 'sharp'
@@ -13,10 +13,10 @@ import { IptcParser } from 'ts-node-iptc'
 import { PackageJson } from 'type-fest'
 
 import {
-        ImageMeta,
-        ImageRecord,
-        ImageThumbnails,
-        LensConfig,
+	ImageMeta,
+	ImageRecord,
+	ImageThumbnails,
+	LensConfig,
 } from '../types/types.js'
 
 import { loadConfig } from './lib/context.js'
@@ -55,9 +55,10 @@ prog.command('add <src>')
 		'-u, --useFilenameDirectory',
 		'Use the filename as a subdirectory for generated files'
 	)
+	// eslint-disable-next-line complexity
 	.action(async (source: string, options: Options) => {
 		let spinner = ora().start()
-                let config: LensConfig = await loadConfig()
+		let config: LensConfig = await loadConfig()
 		let useFilenameDirectory =
 			options.useFilenameDirectory || config.useFilenameDirectory
 
@@ -82,7 +83,7 @@ prog.command('add <src>')
 
 			let sharpImage = sharp(source)
 			let { width, height, iptc } = await sharpImage.metadata()
-			let iptcData = IptcParser.readIPTCData(iptc)
+			let iptcData = iptc ? IptcParser.readIPTCData(iptc) : undefined
 			let fingerprint = await generateFingerprint(sharpImage)
 			let dominantPalette = await oraPromise(
 				getDominantPalette(sharpImage),
@@ -164,8 +165,8 @@ prog.command('add <src>')
 				}
 			}
 
-                        let entryMeta: ImageMeta = {}
-			if (config.includeMetadata) {
+			let entryMeta: ImageMeta = {}
+			if (config.includeMetadata && iptcData) {
 				entryMeta.title = iptcData.object_name
 				entryMeta.caption = iptcData.caption
 			}
