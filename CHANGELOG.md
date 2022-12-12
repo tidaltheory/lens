@@ -1,5 +1,17 @@
 # @tidaltheory/lens
 
+## 1.1.2
+
+### Patch Changes
+
+- [`cb1f5cd`](https://github.com/tidaltheory/lens/commit/cb1f5cdeda88b76d8828bb59609289f13f6a87d3) Thanks [@stormwarning](https://github.com/stormwarning)! - Fix issue where an empty `meta` key would still be added if `includeMetadata` flag was false
+
+- [#144](https://github.com/tidaltheory/lens/pull/144) [`b5501fe`](https://github.com/tidaltheory/lens/commit/b5501fe84a3b94fd1a70f3aa225d215465c1dc69) Thanks [@renovate](https://github.com/apps/renovate)! - Update `sharp` to v0.31.2
+
+- [`6e40e54`](https://github.com/tidaltheory/lens/commit/6e40e54e56c0bf3b0d3cb8a0a54a4dde83f190fd) Thanks [@stormwarning](https://github.com/stormwarning)! - Check for IPTC buffer before trying to parse
+
+- [#134](https://github.com/tidaltheory/lens/pull/134) [`f78fcd4`](https://github.com/tidaltheory/lens/commit/f78fcd483b9a0d8ecd29e5c6c51ba69f5a2551d7) Thanks [@renovate](https://github.com/apps/renovate)! - Update lowdb to v5.0.5
+
 ## 1.1.1 — 2022-10-23
 
 ### 🐛 Fixed
