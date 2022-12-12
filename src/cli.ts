@@ -5,7 +5,7 @@ import process from 'node:process'
 
 import { globby } from 'globby'
 import { Low } from 'lowdb'
-import { JSONFile } from 'lowdb/lib/node'
+import { JSONFile } from 'lowdb/node'
 import ora, { oraPromise } from 'ora'
 import sade from 'sade'
 import sharp from 'sharp'
@@ -84,6 +84,7 @@ prog.command('add <src>')
 			let sharpImage = sharp(source)
 			let { width, height, iptc } = await sharpImage.metadata()
 			let iptcData = iptc ? IptcParser.readIPTCData(iptc) : undefined
+			console.log('IPTC', iptcData)
 			let fingerprint = await generateFingerprint(sharpImage)
 			let dominantPalette = await oraPromise(
 				getDominantPalette(sharpImage),
@@ -166,7 +167,7 @@ prog.command('add <src>')
 			}
 
 			let entryMeta: ImageMeta = {}
-			if (config.includeMetadata && iptcData) {
+			if (iptcData) {
 				entryMeta.title = iptcData.object_name
 				entryMeta.caption = iptcData.caption
 			}
@@ -182,12 +183,17 @@ prog.command('add <src>')
 				formats,
 				colors: dominantPalette,
 				thumbnails: entryThumbnails,
-				meta: entryMeta,
+				meta: config.includeMetadata ? entryMeta : undefined,
 			}
 
 			let store = options.store || config.store || 'imagemeta.json'
+			/**
+			 * Disable rules until I can figure out why TS doesn't like
+			 * importing from 'lowdb/node'.
+			 */
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 			let adapter = new JSONFile<Library>(path.resolve(store))
-			let database = new Low(adapter)
+			let database = new Low<Library>(adapter)
 
 			/**
 			 * Load image store, add new entry, and write to JSON file.
