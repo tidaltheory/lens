@@ -222,25 +222,48 @@ prog.command('jpg <src>')
 	.describe('Convert an image to high-quality JPG')
 	.action(async (source: string) => {
 		let spinner = ora().start()
-		let { name, ext } = parse(source)
+		let sourceImages = await globby(source)
 
-		if (ext.endsWith('jpg')) {
-			spinner.succeed('Image is already in JPG format!')
-			// eslint-disable-next-line unicorn/no-process-exit
-			process.exit(0)
-		}
+		for await (let source of sourceImages) {
+			let { name, ext } = parse(source)
 
-		let sharpImage = sharp(source)
-		spinner.text = 'Converting to JPG...'
+			spinner.start()
 
-		try {
-			await sharpImage
-				.withMetadata()
-				.toFormat('jpg', { quality: 100, chromaSubsampling: '4:4:4' })
-				.toFile(`${name}.jpg`)
-			spinner.succeed(`${name} converted to JPG format!`)
-		} catch (error: unknown) {
-			spinner.fail(String(error))
+			if (ext.endsWith('jpg')) {
+				spinner.succeed('Image is already in JPG format!')
+				// eslint-disable-next-line unicorn/no-process-exit
+				process.exit(0)
+			}
+
+			let sharpImage = sharp(source)
+			spinner.text = 'Converting to JPG...'
+
+			let dt = name.slice(-14)
+			let d = dt.slice(0, 8)
+			let t = dt.slice(8)
+			let date = `${d.slice(0, 4)}:${d.slice(4, 6)}:${d.slice(6, 8)}`
+			let time = `${t.slice(0, 2)}:${t.slice(2, 4)}:${t.slice(4, 6)}`
+			let dateMeta = {
+				exif: {
+					IFD0: {
+						ModifyDate: `${date} ${time}`,
+						DateTimeOriginal: `${date} ${time}`,
+					},
+				},
+			}
+
+			try {
+				await sharpImage
+					.jpeg({
+						quality: 100,
+						chromaSubsampling: '4:4:4',
+					})
+					.withMetadata(dateMeta)
+					.toFile(`${name}.jpg`)
+				spinner.succeed(`${name} converted to JPG format!`)
+			} catch (error: unknown) {
+				spinner.fail(String(error))
+			}
 		}
 	})
 

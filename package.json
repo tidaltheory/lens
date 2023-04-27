@@ -46,6 +46,7 @@
     "package.json": "prettier --write"
   },
   "dependencies": {
+    "@mattduffy/exiftool": "1.4.1",
     "exif-reader": "1.0.3",
     "globby": "13.1.3",
     "is-plain-object": "5.0.0",
