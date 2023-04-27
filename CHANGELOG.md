@@ -1,5 +1,11 @@
 # @tidaltheory/lens
 
+## 1.2.0 — 2023-04-27
+
+### Minor Changes
+
+- Add glob & ModifyDate metadata to `jpg` command [#161](https://github.com/tidaltheory/lens/pull/161)
+
 ## 1.1.2 — 2022-12-12
 
 ### Patch Changes
@@ -7,7 +13,7 @@
 - Fix issue where an empty `meta` key would still be added if `includeMetadata` flag was false [`cb1f5cd`](https://github.com/tidaltheory/lens/commit/cb1f5cdeda88b76d8828bb59609289f13f6a87d3)
 - Check for IPTC buffer before trying to parse [`6e40e54`](https://github.com/tidaltheory/lens/commit/6e40e54e56c0bf3b0d3cb8a0a54a4dde83f190fd)
 - Update `sharp` to v0.31.2 [#144](https://github.com/tidaltheory/lens/pull/144)
-- Update lowdb to v5.0.5 [#134](https://github.com/tidaltheory/lens/pull/134) 
+- Update lowdb to v5.0.5 [#134](https://github.com/tidaltheory/lens/pull/134)
 
 ## 1.1.1 — 2022-10-23
 
