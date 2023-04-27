@@ -1,10 +1,10 @@
 # @tidaltheory/lens
 
-## 1.2.0
+## 1.2.0 — 2023-04-27
 
 ### Minor Changes
 
-- [#161](https://github.com/tidaltheory/lens/pull/161) [`3f9e0ec`](https://github.com/tidaltheory/lens/commit/3f9e0ec04249cdfbaf17dead05a9c2b5cfce360d) Thanks [@stormwarning](https://github.com/stormwarning)! - Add glob & ModifyDate metadata to `jpg` command
+- Add glob & ModifyDate metadata to `jpg` command [#161](https://github.com/tidaltheory/lens/pull/161)
 
 ## 1.1.2 — 2022-12-12
 
