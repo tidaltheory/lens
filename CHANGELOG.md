@@ -1,5 +1,11 @@
 # @tidaltheory/lens
 
+## 1.2.1
+
+### Patch Changes
+
+- Fix ModifyDate if filenames include characters after the timestamp [#176](https://github.com/tidaltheory/lens/pull/176)
+
 ## 1.2.0 — 2023-04-27
 
 ### Minor Changes
