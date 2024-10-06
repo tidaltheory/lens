@@ -238,6 +238,9 @@ prog.command('jpg <src>')
 			let sharpImage = sharp(source)
 			spinner.text = 'Converting to JPG...'
 
+			// Remove any non-digit characters from the end of the filename.
+			name = name.replace(/\D*$/, '')
+
 			let dt = name.slice(-14)
 			let d = dt.slice(0, 8)
 			let t = dt.slice(8)
